@@ -164,46 +164,52 @@ def _tasa(df: pd.DataFrame, col: str) -> dict:
 
 # ---------- Hoja de llamadas ----------
 
-def _coberturas(df: pd.DataFrame) -> list:
-    """Eficacia de cada cobertura dentro de un subconjunto, ordenada por % de éxito permitido."""
-    celdas = [{"cobertura": cob, **m.eficacia_defensiva(sub)} for cob, sub in df.groupby("pff_passCoverage")]
-    return sorted(celdas, key=lambda c: c["exito"]["valor"])
+COBERTURAS_RED_ZONE = ["Red Zone", "Goal Line"]
+MIN_N_RIVAL = 8  # jugadas mínimas del rival contra una cobertura para compararla
 
 
-def _base_comparacion(res: pd.DataFrame, formacion: str) -> tuple:
-    """Usa la formación más probable del rival; si n < 30 (o ninguna cobertura con n >= 30), el grupo completo."""
-    sub = res[res["formacion"] == formacion]
-    hay_cobertura = any(not c["muestra_pequena"] for c in _coberturas(sub)) if len(sub) >= m.N_PEQUENA else False
-    if len(sub) >= m.N_PEQUENA and hay_cobertura:
-        return sub, "formacion", ""
-    aviso = f"Grupo completo: la liga solo tiene {len(sub)} jugadas en {formacion} en esta situación"
-    return res, "grupo", aviso
-
-
-def que_llamar(res: pd.DataFrame, formacion: str) -> dict:
-    """Recomendada / ventaja ligera / evitar, comparando cada cobertura contra el promedio de la liga."""
-    base, tipo, aviso = _base_comparacion(res, formacion)
-    liga = m.eficacia_defensiva(base)
-    celdas = _coberturas(base)
-    confiables = [c for c in celdas if not c["muestra_pequena"]]
-    pequenas = [c for c in celdas if c["muestra_pequena"]]
-    media_liga = liga["exito"]["valor"]
-    recomendada, etiqueta, evitar = None, None, None
-    if confiables:
-        # Significativa: IC 95% completamente por debajo del promedio de la liga
-        signif = [c for c in confiables if c["exito"]["ic95"][1] < media_liga]
-        if signif:
-            recomendada, etiqueta = signif[0], "Recomendada"
-        else:
-            recomendada, etiqueta = confiables[0], "Ventaja ligera (no significativa)"
-        if len(confiables) >= 2:
-            evitar = confiables[-1]
-    veredicto = f"{etiqueta}: {recomendada['cobertura']}" if recomendada else "sin datos suficientes (ninguna cobertura con n >= 30)"
+def _cobertura_rival(sub: pd.DataFrame, rival: str) -> dict:
+    """Éxito del rival contra una cobertura, ajustado con un prior Beta = eficacia de la liga (método de momentos)."""
+    equipos = equipos_validos()
+    x = sub.groupby("possessionTeam")["exito"].sum().reindex(equipos, fill_value=0)
+    n = sub.groupby("possessionTeam").size().reindex(equipos, fill_value=0)
+    prior = m.prior_beta(x.values, n.values)
+    xr, nr = int(x[rival]), int(n[rival])
+    post = m.posterior_beta(prior["a"], prior["b"], xr, nr)
     return {
-        "criterio": "% de éxito permitido vs promedio de la liga en la misma situación; IC 95% bootstrap",
-        "base": tipo, "formacion": formacion if tipo == "formacion" else None, "aviso": aviso,
-        "n_base": len(base), "liga": liga, "veredicto": veredicto, "etiqueta": etiqueta,
-        "recomendada": recomendada, "evitar": evitar, "coberturas": confiables, "muestra_pequena": pequenas,
+        "x": xr, "n": nr, "bruta": xr / nr * 100 if nr else None,
+        "media": post["media"] * 100, "ic90": [v * 100 for v in post["ic"]],
+        "liga": prior["m"] * 100, "n_liga": len(sub), "s": prior["s"], "muestra_pequena": nr < m.N_PEQUENA,
+    }
+
+
+def que_llamar(res: pd.DataFrame, rival: str, redzone) -> dict:
+    """Recomendada / ventaja ligera / evitar con el éxito posterior del rival contra cada cobertura."""
+    # Red Zone y Goal Line solo cuentan con el filtro red zone activo
+    excluidas = [] if redzone is True else COBERTURAS_RED_ZONE
+    df = res[~res["pff_passCoverage"].isin(excluidas)]
+    promedio_liga = df["exito"].mean() * 100 if len(df) else None
+    # Solo coberturas con n >= 30 en la liga, para que el prior sea estable
+    filas = [{"cobertura": cob, **_cobertura_rival(sub, rival)}
+             for cob, sub in df.groupby("pff_passCoverage") if len(sub) >= m.N_PEQUENA]
+    filas.sort(key=lambda f: f["media"])
+    # Solo se comparan coberturas que el rival haya enfrentado al menos MIN_N_RIVAL veces
+    elegibles = [f for f in filas if f["n"] >= MIN_N_RIVAL]
+    recomendada, etiqueta, evitar, fuente = None, None, None, None
+    if elegibles:
+        recomendada, fuente = elegibles[0], "rival"
+        etiqueta = "Recomendada" if recomendada["ic90"][1] < promedio_liga else "Ventaja ligera"
+        evitar = elegibles[-1] if len(elegibles) >= 2 else None
+    elif filas:
+        # Sin datos suficientes del rival: la mejor cobertura de la liga en este grupo
+        recomendada, fuente = min(filas, key=lambda f: f["liga"]), "liga"
+        etiqueta = "Según la liga (pocos datos del rival)"
+    veredicto = f"{etiqueta}: {recomendada['cobertura']}" if recomendada else "sin datos suficientes (ninguna cobertura con n >= 30 en la liga)"
+    return {
+        "criterio": f"éxito posterior del rival contra cada cobertura con n >= {MIN_N_RIVAL} del rival (Beta-Binomial, prior = liga en la misma cobertura y grupo); IC 90%",
+        "liga": {"exito": promedio_liga, "n": len(df)}, "excluidas": excluidas, "min_n_rival": MIN_N_RIVAL,
+        "veredicto": veredicto, "etiqueta": etiqueta, "fuente": fuente,
+        "recomendada": recomendada, "evitar": evitar, "coberturas": filas,
     }
 
 
@@ -218,9 +224,9 @@ def calc_llamada(rival, grupo, cuarto, redzone, two_minute) -> dict:
         "segunda_formacion": {"formacion": formaciones[1][0], **formaciones[1][1]},
         "play_action": tend["play_action"],
     }
-    # Qué llamar: toda la liga contra la formación más probable del rival en esta situación
+    # Qué llamar: éxito del rival contra cada cobertura en esta situación, ajustado con la liga
     res = filtrar(resultado(), cuarto, grupo, redzone, two_minute)
-    llamar = que_llamar(res, formaciones[0][0])
+    llamar = que_llamar(res, rival, redzone)
     return redondear({"rival": rival, "grupo": grupo, "etiqueta": GRUPOS[grupo],
                       "que_esperar": esperar, "que_llamar": llamar})
 

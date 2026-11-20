@@ -1,24 +1,33 @@
 // Pestaña 2 · Hoja de llamadas
 import { Bar, BarChart, CartesianGrid, ErrorBar, Legend, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
-import { GRUPOS, ruta, useApi, type Celda, type Filtros, type LlamadaResp, type PresionResp } from '../api'
+import { GRUPOS, ruta, useApi, type CoberturaRival, type Filtros, type LlamadaResp, type PresionResp } from '../api'
 import { conSigno, icNum, icPct, nombreFormacion, num, pct } from '../formato'
 import { Estado, MuestraPequena, Panel } from './Comunes'
 
-/** % de éxito permitido (viene en escala 0-100) */
-const exito = (c: Celda) => `${num(c.exito.valor, 0)}%`
-
-/** "% éxito permitido X% vs liga Y% (n = Z)" */
-const comparacion = (c: Celda, ll: LlamadaResp['que_llamar']) =>
-  `% éxito permitido ${exito(c)} vs liga ${num(ll.liga.exito.valor, 0)}% (n = ${c.n})`
+/** "El rival tiene X% de éxito contra esta cobertura (n = Z) vs liga Y%" */
+const porQue = (c: CoberturaRival, ll: LlamadaResp['que_llamar']) =>
+  `El rival tiene ${num(c.media, 0)}% de éxito contra esta cobertura (n = ${c.n}) vs liga ${num(ll.liga.exito, 0)}%`
 
 function QueLlamar({ ll }: { ll: LlamadaResp['que_llamar'] }) {
   const r = ll.recomendada
   if (!r) return <span className="text-slate-500">{ll.veredicto}</span>
+  if (ll.fuente === 'liga') {
+    // Sin datos suficientes del rival: recomendación de la liga, en gris
+    return (
+      <div className="text-slate-500">
+        <p className="font-semibold">{r.cobertura}</p>
+        <p className="text-xs">{ll.etiqueta}</p>
+        <p className="text-xs">liga: {num(r.liga, 0)}% de éxito permitido</p>
+      </div>
+    )
+  }
   const fuerte = ll.etiqueta === 'Recomendada'
   return (
     <div>
       <p className={`font-semibold ${fuerte ? 'text-blue-800' : 'text-slate-700'}`}>{r.cobertura}</p>
       <p className={`text-xs ${fuerte ? 'font-medium text-emerald-700' : 'text-slate-500'}`}>{ll.etiqueta}</p>
+      <p className="text-xs text-slate-500">{num(r.media, 0)}% (IC 90% {num(r.ic90[0], 0)}–{num(r.ic90[1], 0)}%)</p>
+      {r.muestra_pequena ? <MuestraPequena n={r.n} /> : null}
     </div>
   )
 }
@@ -29,20 +38,27 @@ function Evitar({ ll }: { ll: LlamadaResp['que_llamar'] }) {
   return (
     <div>
       <p className="font-semibold text-rose-700">{e.cobertura}</p>
-      <p className="text-xs text-slate-500">{exito(e)} de éxito permitido</p>
+      <p className="text-xs text-slate-500">{num(e.media, 0)}% (IC 90% {num(e.ic90[0], 0)}–{num(e.ic90[1], 0)}%)</p>
+      {e.muestra_pequena ? <MuestraPequena n={e.n} /> : null}
     </div>
   )
 }
 
 function PorQue({ ll }: { ll: LlamadaResp['que_llamar'] }) {
   const r = ll.recomendada
-  if (!r) return <span className="text-xs text-slate-500">Ninguna cobertura con n ≥ 30 en esta situación.</span>
-  const contra = ll.base === 'formacion' && ll.formacion ? `Contra ${nombreFormacion(ll.formacion)}: ` : ''
+  if (!r) return <span className="text-xs text-slate-500">Ninguna cobertura con n ≥ 30 en la liga en esta situación.</span>
+  if (ll.fuente === 'liga') {
+    return (
+      <p className="text-xs text-slate-500">
+        La liga permite {num(r.liga, 0)}% de éxito contra esta cobertura vs liga {num(ll.liga.exito, 0)}%.
+        El rival tiene n = {r.n} contra ella (ninguna cobertura con n ≥ {ll.min_n_rival} del rival).
+      </p>
+    )
+  }
   return (
     <div className="text-xs text-slate-700">
-      <p>{contra}{comparacion(r, ll)}</p>
-      {ll.evitar ? <p className="text-slate-500">Evitar {ll.evitar.cobertura}: {comparacion(ll.evitar, ll)}</p> : null}
-      {ll.aviso ? <p className="text-amber-700">{ll.aviso}.</p> : null}
+      <p>{porQue(r, ll)}.</p>
+      {ll.evitar ? <p className="text-slate-500">Evitar {ll.evitar.cobertura}: {porQue(ll.evitar, ll)}.</p> : null}
     </div>
   )
 }
@@ -136,7 +152,7 @@ export default function HojaLlamadas({ rival, filtros }: { rival: string; filtro
           <div>
             <h2 className="text-lg font-semibold text-slate-900">Hoja de llamadas · {rival}</h2>
             <p className="text-sm text-slate-500">
-              Qué esperar: tendencias de {rival} (Beta-Binomial, IC 90%). Qué llamar: cobertura con menor % de éxito permitido en toda la liga contra la formación más probable de {rival}; "Recomendada" si su IC 95% queda por debajo del promedio de la liga. Filtros: {textoFiltros}.
+              Qué esperar: tendencias de {rival} (Beta-Binomial, IC 90%). Qué llamar: cobertura con menor % de éxito de {rival} (Beta-Binomial con la liga como prior, IC 90%); "Recomendada" si su IC queda por debajo del promedio de la liga. Red Zone y Goal Line solo con el filtro red zone. Filtros: {textoFiltros}.
             </p>
           </div>
           <button onClick={() => window.print()}

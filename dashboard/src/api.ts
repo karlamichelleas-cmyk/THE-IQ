@@ -22,6 +22,11 @@ export interface Celda {
   cobertura: string; grupo?: string; tipo?: string; n: number; muestra_pequena: boolean
   yardas: Metrica; exito: Metrica; explosivas: Metrica; sack_int: Metrica; traslapa_con_mejor?: boolean
 }
+/** Éxito del rival contra una cobertura (escala 0-100), ajustado con Beta-Binomial */
+export interface CoberturaRival {
+  cobertura: string; x: number; n: number; bruta: number | null; media: number; ic90: Intervalo
+  liga: number; n_liga: number; s: number; muestra_pequena: boolean
+}
 export interface LlamadaResp {
   rival: string; grupo: string; etiqueta: string
   que_esperar: {
@@ -31,9 +36,10 @@ export interface LlamadaResp {
     play_action: Tendencia
   }
   que_llamar: {
-    criterio: string; veredicto: string; base: 'formacion' | 'grupo'; formacion: string | null; aviso: string
-    n_base: number; liga: { exito: Metrica }; etiqueta: string | null
-    recomendada: Celda | null; evitar: Celda | null; coberturas: Celda[]; muestra_pequena: Celda[]
+    criterio: string; veredicto: string; etiqueta: string | null; excluidas: string[]
+    fuente: 'rival' | 'liga' | null; min_n_rival: number
+    liga: { exito: number | null; n: number }
+    recomendada: CoberturaRival | null; evitar: CoberturaRival | null; coberturas: CoberturaRival[]
   }
 }
 
