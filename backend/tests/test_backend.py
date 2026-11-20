@@ -82,5 +82,24 @@ def test_red_zone_excluida_sin_filtro(cliente):
     assert con["excluidas"] == []
 
 
+def test_campo_por_zonas(cliente):
+    from backend import analisis as an
+    datos = cliente.get("/api/campo", params={"rival": "KC"}).json()
+    zonas = datos["zonas"]
+    assert [z["zona"] for z in zonas] == ["Z1", "Z2", "Z3", "Z4", "Z5"]
+    assert zonas[-1]["red_zone"] and zonas[-1]["desde"] == 1 and zonas[-1]["hasta"] == 20
+    # Las zonas suman las jugadas de resultado del rival (sin "No Play")
+    res = an.resultado()
+    assert sum(z["n"] for z in zonas) == int((res["possessionTeam"] == "KC").sum())
+    # Éxito del rival calculado a mano en la red zone
+    rz = res[(res["possessionTeam"] == "KC") & (res["faltan"] <= 20)]
+    assert zonas[-1]["exito"]["valor"] == pytest.approx(rz["exito"].mean() * 100, abs=1e-3)
+    for z in zonas:
+        assert 0 <= z["liga"]["valor"] <= 100
+        lo, hi = z["exito"]["ic95"]
+        assert lo <= z["exito"]["valor"] <= hi
+    assert cliente.get("/api/campo", params={"rival": "XXX"}).status_code == 404
+
+
 def test_rival_desconocido(cliente):
     assert cliente.get("/api/tendencias", params={"rival": "XXX"}).status_code == 404

@@ -50,6 +50,13 @@ export interface PresionResp {
   grupos: Record<string, { etiqueta: string; balance: Balance }>
 }
 
+export interface ZonaCampo {
+  zona: string; desde: number; hasta: number; red_zone: boolean; n: number; muestra_pequena: boolean
+  exito: Metrica; liga: { valor: number | null; n: number }; diferencia: number | null
+  formacion: { formacion: string | null; pct: number | null; n: number }
+}
+export interface CampoResp { rival: string; zonas: ZonaCampo[] }
+
 export interface Filtros { cuarto: string; redzone: string; two_minute: string }
 
 export const GRUPOS: Record<string, string> = {

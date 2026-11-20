@@ -2,11 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+body { -webkit-font-smoothing: antialiased; }
+
 /* Impresión: solo la hoja de llamadas, en una página horizontal */
 @media print {
   @page { size: landscape; margin: 1cm; }
   body * { visibility: hidden; }
   #hoja-imprimible, #hoja-imprimible * { visibility: visible; }
-  #hoja-imprimible { position: absolute; left: 0; top: 0; width: 100%; font-size: 11px; }
+  /* zoom para que las 6 situaciones quepan en una sola hoja horizontal */
+  #hoja-imprimible { position: absolute; left: 0; top: 0; width: 100%; font-size: 11px; box-shadow: none; zoom: 0.78; }
+  #hoja-imprimible, #hoja-imprimible * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #hoja-imprimible tr { break-inside: avoid; }
+  #hoja-imprimible td { padding-top: 5px; padding-bottom: 5px; }
   .no-imprimir { display: none !important; }
 }

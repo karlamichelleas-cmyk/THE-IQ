@@ -231,6 +231,49 @@ def calc_llamada(rival, grupo, cuarto, redzone, two_minute) -> dict:
                       "que_esperar": esperar, "que_llamar": llamar})
 
 
+# ---------- Campo: éxito del rival por zona ----------
+
+# Zonas según las yardas que le faltan al rival para anotar en nuestra end zone
+ZONAS = [
+    ("Z1", "Z1 81-99", 81, 99), ("Z2", "Z2 61-80", 61, 80), ("Z3", "Z3 41-60", 41, 60),
+    ("Z4", "Z4 21-40", 21, 40), ("Z5", "Z5 1-20", 1, 20),
+]
+
+
+def _formacion_top(df: pd.DataFrame) -> dict:
+    """Formación más frecuente (proporción bruta) y su n."""
+    f = df["formacion"].dropna()
+    if f.empty:
+        return {"formacion": None, "pct": None, "n": 0}
+    conteo = f.value_counts()
+    return {"formacion": conteo.index[0], "pct": conteo.iat[0] / len(f) * 100, "n": len(f)}
+
+
+@lru_cache(maxsize=256)
+def calc_campo(rival, cuarto, two_minute) -> dict:
+    # Éxito: set de resultado (sin "No Play"), prePenaltyPlayResult y el criterio de la metodología
+    res = filtrar(resultado(), cuarto, None, None, two_minute)
+    # Formación: set de tendencias (todas las jugadas), como en la metodología
+    tend = filtrar(jugadas(), cuarto, None, None, two_minute)
+    zonas = []
+    for codigo, etiqueta, desde, hasta in ZONAS:
+        liga = res[res["zona"] == etiqueta]
+        sub = liga[liga["possessionTeam"] == rival]
+        exito = sub["exito"].to_numpy(float)
+        valor = exito.mean() * 100 if len(sub) else None
+        ic = [v * 100 for v in m.bootstrap_ic(exito)] if len(sub) else [None, None]
+        liga_valor = liga["exito"].mean() * 100 if len(liga) else None
+        dif = valor - liga_valor if valor is not None and liga_valor is not None else None
+        form = tend[(tend["zona"] == etiqueta) & (tend["possessionTeam"] == rival)]
+        zonas.append({
+            "zona": codigo, "desde": desde, "hasta": hasta, "red_zone": codigo == "Z5",
+            "n": len(sub), "muestra_pequena": len(sub) < m.N_PEQUENA,
+            "exito": {"valor": valor, "ic95": ic}, "liga": {"valor": liga_valor, "n": len(liga)},
+            "diferencia": dif, "formacion": _formacion_top(form),
+        })
+    return redondear({"rival": rival, "zonas": zonas})
+
+
 def precalcular() -> None:
     """Calienta la caché con las consultas sin filtros."""
     calc_equipos(None, None, None, None)

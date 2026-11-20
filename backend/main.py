@@ -68,6 +68,12 @@ def presion(cuarto: Cuarto = None, grupo: Optional[Grupo] = None,
     return an.calc_presion(cuarto, grupo, redzone, two_minute)
 
 
+@app.get("/api/campo")
+def campo(rival: str = Query(...), cuarto: Cuarto = None, two_minute: Optional[bool] = None) -> dict:
+    """% de éxito del rival por zona del campo, comparado con la liga."""
+    return an.calc_campo(validar_rival(rival), cuarto, two_minute)
+
+
 @app.get("/api/llamada")
 def llamada(rival: str = Query(...), grupo: Grupo = Query(...), cuarto: Cuarto = None,
             redzone: Optional[bool] = None, two_minute: Optional[bool] = None) -> dict:
