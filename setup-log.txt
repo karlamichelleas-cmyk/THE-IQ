@@ -1,0 +1,308 @@
+
+===== setup 2026-11-19 08:38:48 =====
+08:38:30 Sistema detectado: windows x64  |  Python del arranque: 3.12.12
+08:38:48     Creando proyecto en: C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam
+08:38:48 MODO: instalación  |  versión del script: 2026-11-16  |  argumentos: (ninguno)
+08:38:48 SISTEMA: Windows-11-10.0.26200-SP0  |  detectado: windows x64  |  versión: 10.0.26200
+08:38:50 WINDOWS: build 26200  |  administrador: False
+08:38:50 PYTHON: 3.12.12 (C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\python.exe)
+08:38:50 USUARIO: miche  |  carpeta actual: C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon
+08:38:50 PROYECTO: C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam  |  largo de ruta: 59  |  espacios: False  |  no ASCII: False
+08:38:50 DISCO LIBRE: 393.8 GB
+08:38:50 PROXY: ninguno
+08:38:50 Proyecto: C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam
+08:38:50 
+[1/8] Preparando carpetas
+08:38:50     Reglas de Kiro instaladas en .kiro/steering/rules.md
+08:38:50 
+[2/8] Instalando uv 0.11.19
+08:38:53     uv 0.11.19 copiado desde el arranque
+08:38:53 
+[3/8] Instalando Python 3.12.12 y creando .venv
+08:38:53 $ C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.hackathon\.tools\uv\uv.exe python install 3.12.12 --no-bin --no-registry
+08:39:06 Downloading cpython-3.12.12-windows-x86_64-none (download) (20.8MiB)
+ Downloaded cpython-3.12.12-windows-x86_64-none (download)
+Installed Python 3.12.12 in 11.71s
+ + cpython-3.12.12-windows-x86_64-none
+08:39:06     Python 3.12.12 disponible en .tools/python
+08:39:06 $ C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.hackathon\.tools\uv\uv.exe venv --python 3.12.12 C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.venv
+08:39:08 Using CPython 3.12.12
+Creating virtual environment at: .venv
+Activate with: .venv\Scripts\activate
+08:39:08     .venv creado
+08:39:08 
+[4/8] Instalando dependencias de Python (una sola resolución, solo ruedas)
+08:39:08 $ C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.hackathon\.tools\uv\uv.exe pip install --python C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.venv\Scripts\python.exe --only-binary :all: --require-hashes -r C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.hackathon\requirements.lock
+08:39:39 Resolved 57 packages in 4.34s
+Downloading pandas (11.0MiB)
+Downloading numpy (12.0MiB)
+Downloading cryptography (3.6MiB)
+Downloading botocore (15.5MiB)
+Downloading pywin32 (6.6MiB)
+Downloading pydantic-core (1.9MiB)
+ Downloaded pydantic-core
+ Downloaded cryptography
+ Downloaded pywin32
+ Downloaded pandas
+ Downloaded numpy
+ Downloaded botocore
+Prepared 57 packages in 22.25s
+Installed 57 packages in 2.40s
+ + annotated-types==0.8.0
+ + anyio==4.16.0
+ + attrs==26.1.0
+ + boto3==1.44.0
+ + botocore==1.44.0
+ + certifi==2026.10.23
+ + cffi==2.1.1
+ + click==8.5.1
+ + colorama==0.4.6
+ + cryptography==50.0.2
+ + docstring-parser==0.18.0
+ + fastapi==0.115.14
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + httpx-sse==0.4.3
+ + idna==3.20
+ + iniconfig==2.3.1
+ + jmespath==1.1.0
+ + jsonschema==4.26.0
+ + jsonschema-specifications==2025.9.1
+ + mcp==1.27.2
+ + numpy==2.1.3
+ + opentelemetry-api==1.45.2
+ + opentelemetry-instrumentation==0.66b2
+ + opentelemetry-instrumentation-threading==0.66b2
+ + opentelemetry-sdk==1.45.2
+ + opentelemetry-semantic-conventions==0.66b2
+ + packaging==26.3
+ + pandas==2.2.3
+ + pluggy==1.7.0
+ + pycparser==3.12
+ + pydantic==2.11.7
+ + pydantic-core==2.33.2
+ + pydantic-settings==2.16.2
+ + pyjwt==2.15.1
+ + pytest==8.3.5
+ + python-dateutil==2.9.0.post0
+ + python-dotenv==1.2.4
+ + python-multipart==0.0.33
+ + pytz==2026.6
+ + pywin32==312
+ + pyyaml==6.0.3
+ + referencing==0.37.0
+ + rpds-py==2026.9.1
+ + s3transfer==0.19.3
+ + six==1.17.0
+ + sse-starlette==3.0.3
+ + starlette==0.46.2
+ + strands-agents==1.64.0
+ + typing-extensions==4.16.0
+ + typing-inspection==0.4.5
+ + tzdata==2026.6
+ + urllib3==2.8.0
+ + uvicorn==0.34.3
+ + watchdog==6.0.0
+ + wrapt==2.5.2
+08:39:39     Dependencias de Python instaladas desde el archivo de bloqueo
+08:39:39 
+[5/8] Descargando Node 22.23.1 portátil y verificando SHA-256
+08:39:39 descargando https://nodejs.org/dist/v22.23.1/SHASUMS256.txt
+08:39:41 ERROR INESPERADO:
+Traceback (most recent call last):
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\setup.py", line 1027, in <module>
+    codigo = main()
+             ^^^^^^
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\setup.py", line 1012, in main
+    paso(5, total, f"Descargando Node {stack['node']} portátil y verificando SHA-256"); instalar_node(pr)
+                                                                                        ^^^^^^^^^^^^^^^^^
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\setup.py", line 363, in instalar_node
+    sumas = descargar(f"{base}/SHASUMS256.txt", pr.cache / "downloads" / "SHASUMS256.txt", "sumas de verificación")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\setup.py", line 194, in descargar
+    with urllib.request.urlopen(req, timeout=60) as r, open(tmp, "wb") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\Lib\urllib\request.py", line 215, in urlopen
+    return opener.open(url, data, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\Lib\urllib\request.py", line 515, in open
+    response = self._open(req, data)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\Lib\urllib\request.py", line 532, in _open
+    result = self._call_chain(self.handle_open, protocol, protocol +
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\Lib\urllib\request.py", line 492, in _call_chain
+    result = func(*args)
+             ^^^^^^^^^^^
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\Lib\urllib\request.py", line 1392, in https_open
+    return self.do_open(http.client.HTTPSConnection, req,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\Lib\urllib\request.py", line 1344, in do_open
+    h.request(req.get_method(), req.selector, req.data, headers,
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\Lib\http\client.py", line 1338, in request
+    self._send_request(method, url, body, headers, encode_chunked)
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\Lib\http\client.py", line 1384, in _send_request
+    self.endheaders(body, encode_chunked=encode_chunked)
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\Lib\http\client.py", line 1333, in endheaders
+    self._send_output(message_body, encode_chunked=encode_chunked)
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\Lib\http\client.py", line 1093, in _send_output
+    self.send(msg)
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\Lib\http\client.py", line 1037, in send
+    self.connect()
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\Lib\http\client.py", line 1472, in connect
+    super().connect()
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\Lib\http\client.py", line 1003, in connect
+    self.sock = self._create_connection(
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\Lib\socket.py", line 841, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\Lib\socket.py", line 978, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+LookupError: unknown encoding: idna
+
+08:39:41 
+ERROR INESPERADO: LookupError: unknown encoding: idna
+08:39:41 QUÉ HACER: vuelve a correr el script; si persiste, envía el archivo setup.log a soporte.
+08:39:41 FIN con código de salida 1
+
+===== setup 2026-11-19 08:43:25 =====
+08:43:03 Sistema detectado: windows x64  |  Python del arranque: 3.12.12
+08:43:25     El proyecto C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam ya existe: se reutiliza (se repara lo que falte)
+08:43:25 MODO: instalación  |  versión del script: 2026-11-16  |  argumentos: (ninguno)
+08:43:25 SISTEMA: Windows-11-10.0.26200-SP0  |  detectado: windows x64  |  versión: 10.0.26200
+08:43:25 WINDOWS: build 26200  |  administrador: False
+08:43:25 PYTHON: 3.12.12 (C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon\.hackathon\.bootstrap\python\cpython-3.12.12-windows-x86_64-none\python.exe)
+08:43:25 USUARIO: miche  |  carpeta actual: C:\Users\miche\Downloads\plantilla-hackathon\plantilla-hackathon
+08:43:25 PROYECTO: C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam  |  largo de ruta: 59  |  espacios: False  |  no ASCII: False
+08:43:25 DISCO LIBRE: 393.4 GB
+08:43:25 PROXY: ninguno
+08:43:25 Proyecto: C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam
+08:43:25 
+[1/8] Preparando carpetas
+08:43:25 
+[2/8] Instalando uv 0.11.19
+08:43:25     uv 0.11.19 ya instalado
+08:43:25 
+[3/8] Instalando Python 3.12.12 y creando .venv
+08:43:25 $ C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.hackathon\.tools\uv\uv.exe python install 3.12.12 --no-bin --no-registry
+08:43:25 Python 3.12.12 is already installed
+08:43:25     Python 3.12.12 disponible en .tools/python
+08:43:26     .venv ya existe (Python 3.12.12)
+08:43:26 
+[4/8] Instalando dependencias de Python (una sola resolución, solo ruedas)
+08:43:26 $ C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.hackathon\.tools\uv\uv.exe pip install --python C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.venv\Scripts\python.exe --only-binary :all: --require-hashes -r C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.hackathon\requirements.lock
+08:43:26 Checked 57 packages in 21ms
+08:43:26     Dependencias de Python instaladas desde el archivo de bloqueo
+08:43:26 
+[5/8] Descargando Node 22.23.1 portátil y verificando SHA-256
+08:43:26 descargando https://nodejs.org/dist/v22.23.1/SHASUMS256.txt
+08:43:26 descargando https://nodejs.org/dist/v22.23.1/node-v22.23.1-win-x64.zip
+08:44:11     Suma SHA-256 verificada
+08:44:16     Node v22.23.1 instalado en .tools/node
+08:44:16 
+[6/8] Instalando dependencias del frontend (npm ci)
+08:44:16 $ C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.hackathon\.tools\node\npm.cmd ci --ignore-scripts
+08:44:38 
+added 173 packages in 20s
+08:44:38     Dependencias del frontend instaladas con npm ci --ignore-scripts
+08:44:38 
+[7/8] Comprobando todo
+08:44:41 $ C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.hackathon\.tools\uv\uv.exe pip check --python C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.venv\Scripts\python.exe
+08:44:41 Checked 57 packages in 6ms
+All installed packages are compatible
+08:44:41 $ C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.venv\Scripts\python.exe -c import pandas, numpy, fastapi, uvicorn, pydantic, strands, boto3, httpx
+08:45:06 
+08:45:06   Pieza              Esperado                            Encontrado      Estado
+08:45:06   -----------------  ----------------------------------  --------------  ------
+08:45:06   uv                 0.11.19                             0.11.19         OK    
+08:45:06   Python (.venv)     3.12.12                             3.12.12         OK    
+08:45:06   Node               v22.23.1                            v22.23.1        OK    
+08:45:06   npm                10.x                                10.9.8          OK    
+08:45:06   Paquetes Python    9 fijos                             9 coinciden     OK    
+08:45:06   Paquetes npm       12 fijos                            12 coinciden    OK    
+08:45:06   pip check          sin conflictos                      sin conflictos  OK    
+08:45:06   Importar paquetes  pandas, fastapi, pydantic, strands  importan        OK    
+08:45:06 
+[8/8] Resultado
+08:45:06 
+TODO OK. Tu proyecto está en:
+  C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam
+Trabaja dentro de esa carpeta. Cuando termines, corre:  .\.hackathon\setup.cmd --entregar
+08:45:06 FIN con código de salida 0
+
+===== setup 2026-11-19 08:51:20 =====
+08:51:20 Sistema detectado: windows x64  |  Python del arranque: 3.12.12
+08:51:20 MODO: check  |  versión del script: 2026-11-16  |  argumentos: --check
+08:51:20 SISTEMA: Windows-11-10.0.26200-SP0  |  detectado: windows x64  |  versión: 10.0.26200
+08:51:20 WINDOWS: build 26200  |  administrador: False
+08:51:20 PYTHON: 3.12.12 (C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.venv\Scripts\python.exe)
+08:51:20 USUARIO: miche  |  carpeta actual: C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam
+08:51:20 PROYECTO: C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam  |  largo de ruta: 59  |  espacios: False  |  no ASCII: False
+08:51:20 DISCO LIBRE: 392.7 GB
+08:51:20 PROXY: ninguno
+08:51:20 Proyecto: C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam
+08:51:20 
+Validando (no se descarga ni instala nada)...
+08:51:21 $ C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.hackathon\.tools\uv\uv.exe pip check --python C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.venv\Scripts\python.exe
+08:51:21 Checked 57 packages in 5ms
+All installed packages are compatible
+08:51:21 $ C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.venv\Scripts\python.exe -c import pandas, numpy, fastapi, uvicorn, pydantic, strands, boto3, httpx
+08:51:24 
+08:51:24   Pieza              Esperado                            Encontrado      Estado
+08:51:24   -----------------  ----------------------------------  --------------  ------
+08:51:24   uv                 0.11.19                             0.11.19         OK    
+08:51:24   Python (.venv)     3.12.12                             3.12.12         OK    
+08:51:24   Node               v22.23.1                            v22.23.1        OK    
+08:51:24   npm                10.x                                10.9.8          OK    
+08:51:24   Paquetes Python    9 fijos                             9 coinciden     OK    
+08:51:24   Paquetes npm       12 fijos                            12 coinciden    OK    
+08:51:24   pip check          sin conflictos                      sin conflictos  OK    
+08:51:24   Importar paquetes  pandas, fastapi, pydantic, strands  importan        OK    
+08:51:24 
+Revisando desviaciones del stack...
+08:51:24 $ C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.venv\Scripts\python.exe -c import backend.main as m;assert hasattr(m,'app'), 'APP';assert any(getattr(r,'path','')=='/health' for r in m.app.routes), 'HEALTH'
+08:51:25 
+08:51:25     El proyecto sigue el stack del evento
+08:51:25 
+RESULTADO: TODO OK, puedes entregar.
+08:51:25 FIN con código de salida 0
+
+===== setup 2026-11-20 10:00:47 =====
+10:00:47 Sistema detectado: windows x64  |  Python del arranque: 3.12.12
+10:00:47 MODO: check  |  versión del script: 2026-11-16  |  argumentos: --check
+10:00:47 SISTEMA: Windows-11-10.0.26200-SP0  |  detectado: windows x64  |  versión: 10.0.26200
+10:00:47 WINDOWS: build 26200  |  administrador: False
+10:00:47 PYTHON: 3.12.12 (C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.venv\Scripts\python.exe)
+10:00:47 USUARIO: miche  |  carpeta actual: C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam
+10:00:47 PROYECTO: C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam  |  largo de ruta: 59  |  espacios: False  |  no ASCII: False
+10:00:47 DISCO LIBRE: 386.9 GB
+10:00:47 PROXY: ninguno
+10:00:47 Proyecto: C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam
+10:00:47 
+Validando (no se descarga ni instala nada)...
+10:00:49 $ C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.hackathon\.tools\uv\uv.exe pip check --python C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.venv\Scripts\python.exe
+10:00:49 Checked 57 packages in 6ms
+All installed packages are compatible
+10:00:49 $ C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.venv\Scripts\python.exe -c import pandas, numpy, fastapi, uvicorn, pydantic, strands, boto3, httpx
+10:00:52 
+10:00:52   Pieza              Esperado                            Encontrado      Estado
+10:00:52   -----------------  ----------------------------------  --------------  ------
+10:00:52   uv                 0.11.19                             0.11.19         OK    
+10:00:52   Python (.venv)     3.12.12                             3.12.12         OK    
+10:00:52   Node               v22.23.1                            v22.23.1        OK    
+10:00:52   npm                10.x                                10.9.8          OK    
+10:00:52   Paquetes Python    9 fijos                             9 coinciden     OK    
+10:00:52   Paquetes npm       12 fijos                            12 coinciden    OK    
+10:00:52   pip check          sin conflictos                      sin conflictos  OK    
+10:00:52   Importar paquetes  pandas, fastapi, pydantic, strands  importan        OK    
+10:00:52 
+Revisando desviaciones del stack...
+10:00:52 $ C:\Users\miche\Downloads\plantilla-hackathon\hackathon-unam\.venv\Scripts\python.exe -c import backend.main as m;assert hasattr(m,'app'), 'APP';assert any(getattr(r,'path','')=='/health' for r in m.app.routes), 'HEALTH'
+10:00:53 
+10:00:53     El proyecto sigue el stack del evento
+10:00:53 
+RESULTADO: TODO OK, puedes entregar.
+10:00:53 FIN con código de salida 0

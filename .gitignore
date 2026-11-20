@@ -1,0 +1,21 @@
+.venv/
+.hackathon/.tools/
+.hackathon/.cache/
+.hackathon/.bootstrap/
+.hackathon/setup.log
+node_modules/
+dist/
+__pycache__/
+.tools/
+.bootstrap/
+
+# Tracking (~810 MB): no se versiona
+data/**/tracking/
+
+# Llaves y credenciales: nunca al repositorio
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.aws/
