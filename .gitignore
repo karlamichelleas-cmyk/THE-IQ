@@ -12,6 +12,10 @@ __pycache__/
 # Tracking (~810 MB): no se versiona
 data/**/tracking/
 
+# Archivos locales del equipo
+.Rhistory
+setup-log.txt
+
 # Llaves y credenciales: nunca al repositorio
 .env
 .env.*
