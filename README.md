@@ -1,4 +1,4 @@
-# THE IQ Interceptors · Leer al rival
+# The IQ Interceptors · Leer al rival
 
 Un coordinador defensivo que se prepara para el domingo necesita responder dos preguntas: qué va a hacer el ataque rival en cada situación y qué defensa conviene llamar contra él. 
 
